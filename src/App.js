@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css'; //since we used css modules we can 
+//now import all the classes inside App.css as properties of the 'classes' object
 import Person from './Person/Person';
 
 class App extends Component {
@@ -72,18 +73,10 @@ class App extends Component {
   }
 
   render() {
-    //this style object is used for inline styling of button
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      padding: '8px',
-      border: '1px solid blue'
-    }
-
-
     //below code is used to do a conditional loading of the Persons div
-    let persons = null;
+    let persons = null;    
+    let btnClass = '';
+    
     if (this.state.showPersons) {
       persons = (
         <div>
@@ -98,24 +91,25 @@ class App extends Component {
         </div>
       );
 
-      style.backgroundColor = 'red'; // we are dynamically changing the button color,
-      //by modifying the style object which we used for our button inline styling
+      btnClass = classes.Red;
     }
 
     //the below classes array is used to dynamically change a <p> className
-    let classes = [];
+    let assignedClasses = [];
     if (this.state.persons.length <= 2) {
-      classes.push('red');
+      assignedClasses.push(classes.red);
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold');
+      assignedClasses.push(classes.bold);
     }
 
     return (
-      <div className="App">
-        <p className={classes.join(' ')}>This is working!</p> {/*dynamic classname from classes array
+      //instead of <div className="App"> now we have css module enabled so we can use below
+      <div className={classes.App}>
+        <p className={assignedClasses.join(' ')}>This is working!</p>
+        {/*dynamic classname from assignedClasses array
         Eg: className='red bold'*/}
-        <button style={style} onClick={this.togglePersonsHandler}>Hide/Show Persons</button>
+        <button className={btnClass} onClick={this.togglePersonsHandler}>Hide/Show Persons</button>
         {/*below we are doing a conditional loading of the Persons div*/}
         {persons}
         <div>
